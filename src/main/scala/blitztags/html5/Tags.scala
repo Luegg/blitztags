@@ -3,6 +3,7 @@ package blitztags.html5
 import blitztags._
 
 object Tags {
+  // a text node factory
   val T = new {
     def apply(text: String)(implicit builder: DOMBuilder): Unit = {
       builder.addChild(TextNode(text))
@@ -123,7 +124,7 @@ object Tags {
   val Fieldset = new NormalElementFactory('fieldset)
   val Legend = new NormalElementFactory('legend)
   val Label = new NormalElementFactory('label)
-  val Input = new NormalElementFactory('input)
+  val Input = new VoidElementFactory('input)
   val Button = new NormalElementFactory('button)
   val Select = new NormalElementFactory('select)
   val Datalist = new NormalElementFactory('datalist)
