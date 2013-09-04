@@ -5,8 +5,8 @@ import scala.collection.mutable.MutableList
 trait ElementFactory {
   val tag: Symbol
 
-  def args2attrs(args: Seq[(Symbol, String)] = Seq()): Vector[AttrNode] = {
-    val attrNodes = args map { arg => AttrNode(arg._1, arg._2) }
+  def args2attrs(args: Seq[(Symbol, Any)] = Seq()): Vector[AttrNode] = {
+    val attrNodes = args map { arg => AttrNode(arg._1, arg._2.toString) }
     attrNodes.toVector
   }
 }
@@ -18,7 +18,7 @@ trait Void { self: ElementFactory =>
 }
 
 trait Subtree { self: ElementFactory =>
-  def apply(attrs: (Symbol, String)*)(expr: => Any)(implicit builder: DOMBuilder): Unit = {
+  def apply(attrs: (Symbol, Any)*)(expr: => Any)(implicit builder: DOMBuilder): Unit = {
     builder.openElement(ElementNode(tag, args2attrs(attrs)));
 
     expr match {
@@ -36,7 +36,7 @@ trait Subtree { self: ElementFactory =>
 }
 
 trait RawText { self: ElementFactory =>
-  def apply(attrs: (Symbol, String)*)(text: String)(implicit builder: DOMBuilder): Unit = {
+  def apply(attrs: (Symbol, Any)*)(text: String)(implicit builder: DOMBuilder): Unit = {
     builder.addChild(ElementNode(tag, args2attrs(attrs), Vector(TextNode(text))))
   }
   
