@@ -34,7 +34,7 @@ case class VoidElementNode(tag: Symbol, attributes: Vector[AttrNode]) extends Le
     val attrs =
       if (attributes.length > 0) attributes.mkString(" ", " ", "")
       else ""
-    s"<${tag.name}$attrs/>"
+    s"<${tag.name}$attrs>"
   }
 }
 

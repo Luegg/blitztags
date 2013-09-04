@@ -11,10 +11,11 @@ class TemplateSpec extends FlatSpec with ShouldMatchers {
     case class T(msg: String) extends Template{
       Html{
         Div { msg }
+        Br()
       }
     }
 
-    T("Hello").renderHtml should equal("<!DOCTYPE html><html><div>Hello</div></html>")
+    T("Hello").renderHtml should equal("<!DOCTYPE html><html><div>Hello</div><br></html>")
   }
 
   it should "support common scala expressions" in {
@@ -65,6 +66,16 @@ class TemplateSpec extends FlatSpec with ShouldMatchers {
     }
 
     T("main").renderHtml should equal("""<!DOCTYPE html><div class="container" id="main">Something</div>""")
+  }
+
+  it should "support attribute methods" in {
+    case class T() extends Template {
+      Div.id("main").cls("container"){
+        "Something"
+      }
+    }
+
+    T().renderHtml should equal("""<!DOCTYPE html><div id="main" class="container">Something</div>""")
   }
 
   it should "support methods" in {
