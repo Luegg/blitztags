@@ -1,6 +1,6 @@
 package blitztags
 
-trait ElementBuilder {
+trait ElementFactory {
   val tag: Symbol
 
   def args2attrs(args: Seq[(Symbol, String)] = Seq()): Vector[AttrNode] = {
@@ -9,13 +9,13 @@ trait ElementBuilder {
   }
 }
 
-trait Void { self: ElementBuilder =>
+trait Void { self: ElementFactory =>
   def apply(attrs: (Symbol, String)*)(implicit builder: DOMBuilder): Unit = {
     builder.addChild(VoidElementNode(tag, args2attrs(attrs)))
   }
 }
 
-trait Subtree { self: ElementBuilder =>
+trait Subtree { self: ElementFactory =>
   def apply(expr: => Any)(implicit builder: DOMBuilder): Unit = {
     apply()(expr)(builder)
   }
@@ -33,7 +33,7 @@ trait Subtree { self: ElementBuilder =>
   }
 }
 
-trait RawText { self: ElementBuilder =>
+trait RawText { self: ElementFactory =>
   def apply(text: String)(implicit builder: DOMBuilder): Unit = {
     apply(Seq(): _*)(text)(builder)
   }
@@ -43,8 +43,8 @@ trait RawText { self: ElementBuilder =>
   }
 }
 
-case class VoidElementBuilder(tag: Symbol) extends ElementBuilder with Void
+case class VoidElementFactory(tag: Symbol) extends ElementFactory with Void
 
-case class NormalElementBuilder(tag: Symbol) extends ElementBuilder with Subtree
+case class NormalElementFactory(tag: Symbol) extends ElementFactory with Subtree
 
-case class RawTextElementBuilder(tag: Symbol) extends ElementBuilder with Void with RawText
+case class RawTextElementFactory(tag: Symbol) extends ElementFactory with Void with RawText

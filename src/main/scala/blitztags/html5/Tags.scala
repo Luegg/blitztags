@@ -9,11 +9,11 @@ object Tags {
     }
   }
 
-  val Html = NormalElementBuilder('html)
-  val Title = NormalElementBuilder('title)
-  val Div = NormalElementBuilder('div)
-  val P = NormalElementBuilder('p)
-  val Em = NormalElementBuilder('em)
-  val Script = RawTextElementBuilder('script)
-  val Br = VoidElementBuilder('br)
+  val Html = NormalElementFactory('html)
+  val Title = NormalElementFactory('title)
+  val Div = NormalElementFactory('div)
+  val P = NormalElementFactory('p)
+  val Em = NormalElementFactory('em)
+  val Script = RawTextElementFactory('script)
+  val Br = VoidElementFactory('br)
 }
