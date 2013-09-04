@@ -29,6 +29,12 @@ case class ElementNode(
   }
 }
 
+case class CommentNode(text: String) extends LeafNode{
+  override def toString() = {
+    s"<!-- $text -->"
+  }
+}
+
 case class VoidElementNode(tag: Symbol, attributes: Vector[AttrNode]) extends LeafNode {
   override def toString() = {
     val attrs =

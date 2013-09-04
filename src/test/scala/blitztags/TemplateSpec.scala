@@ -8,18 +8,20 @@ import scala.collection.immutable.Range
 
 class TemplateSpec extends FlatSpec with ShouldMatchers {
   "A template" should "render HTML" in {
-    case class T(msg: String) extends Template{
-      Html{
+    case class Page(msg: String) extends Template {
+      Html {
         Div { msg }
         Br()
+        T { "text node" }
+        / { "Comment" }
       }
     }
 
-    T("Hello").renderHtml should equal("<!DOCTYPE html><html><div>Hello</div><br /></html>")
+    Page("Hello").renderHtml should equal("<!DOCTYPE html><html><div>Hello</div><br />text node<!-- Comment --></html>")
   }
 
-  it should "support common scala expressions" in {
-    case class T(cond: Boolean, range: Range) extends Template {
+  it should "support common scala control structures" in {
+    case class Page(cond: Boolean, range: Range) extends Template {
       Html {
         if (cond)
           Div { "Hello" }
@@ -32,7 +34,7 @@ class TemplateSpec extends FlatSpec with ShouldMatchers {
       }
     }
 
-    T(true, 1 to 2).renderHtml should equal("<!DOCTYPE html><html><div>Hello</div><p>1</p><p>2</p></html>")
+    Page(true, 1 to 2).renderHtml should equal("<!DOCTYPE html><html><div>Hello</div><p>1</p><p>2</p></html>")
   }
 
   it should "support inheritance" in {
@@ -48,30 +50,30 @@ class TemplateSpec extends FlatSpec with ShouldMatchers {
       }
     }
 
-    case class T() extends Template with Layout {
+    case class Page() extends Template with Layout {
       def contentTitle = "Welcome"
       def content = {
         P { "Hi there" }
       }
     }
 
-    T().renderHtml should equal("<!DOCTYPE html><html><title>Welcome</title><div><p>Hi there</p></div></html>")
+    Page().renderHtml should equal("<!DOCTYPE html><html><title>Welcome</title><div><p>Hi there</p></div></html>")
   }
 
   it should "allow element attributes" in {
-    case class T(id: String) extends Template {
+    case class Page(id: String) extends Template {
       Div('class -> "container", 'id -> id) {
         "Something"
       }
     }
 
-    T("main").renderHtml should equal("""<!DOCTYPE html><div class="container" id="main">Something</div>""")
+    Page("main").renderHtml should equal("""<!DOCTYPE html><div class="container" id="main">Something</div>""")
   }
 
   it should "support methods" in {
     import Tags._
 
-    case class T(times: Int) extends Template {
+    case class Page(times: Int) extends Template {
       def greet(name: String) = {
         P { s"Hello $name!" }
       }
@@ -83,6 +85,6 @@ class TemplateSpec extends FlatSpec with ShouldMatchers {
       }
     }
 
-    T(3).renderHtml should equal("""<!DOCTYPE html><div><p>Hello 1!</p><p>Hello 2!</p><p>Hello 3!</p></div>""")
+    Page(3).renderHtml should equal("""<!DOCTYPE html><div><p>Hello 1!</p><p>Hello 2!</p><p>Hello 3!</p></div>""")
   }
 }

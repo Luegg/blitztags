@@ -9,6 +9,12 @@ object Tags {
       builder.addChild(TextNode(text))
     }
   }
+  
+  val / = new{
+    def apply(text: String)(implicit builder: DOMBuilder): Unit = {
+      builder.addChild(CommentNode(text))
+    }
+  }
 
   // root element
   val Html = new NormalElementFactory('html)
