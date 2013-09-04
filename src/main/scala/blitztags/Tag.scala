@@ -48,19 +48,3 @@ case class VoidElementBuilder(tag: Symbol) extends ElementBuilder with Void
 case class NormalElementBuilder(tag: Symbol) extends ElementBuilder with Subtree
 
 case class RawTextElementBuilder(tag: Symbol) extends ElementBuilder with Void with RawText
-
-object Tags {
-  val T = new {
-    def apply(text: String)(implicit builder: DOMBuilder): Unit = {
-      builder.addChild(TextNode(text))
-    }
-  }
-
-  val Html = NormalElementBuilder('html)
-  val Title = NormalElementBuilder('title)
-  val Div = NormalElementBuilder('div)
-  val P = NormalElementBuilder('p)
-  val Em = NormalElementBuilder('em)
-  val Script = RawTextElementBuilder('script)
-  val Br = VoidElementBuilder('br)
-}

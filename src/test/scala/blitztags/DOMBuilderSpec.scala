@@ -14,7 +14,7 @@ class DOMBuilderSpec extends FlatSpec with ShouldMatchers{
   val bobNode = new TextNode("Hello Bob")
   
   "A DOMBuilder" should "add child nodes to a node" in {
-    var builder = new DOMBuilder
+    var builder = new html5.Html5Builder
     
     builder.addChild(aliceNode)
     builder.addChild(bobNode)
@@ -25,7 +25,7 @@ class DOMBuilderSpec extends FlatSpec with ShouldMatchers{
   }
   
   it should "open and close nodes" in {
-    var builder = new DOMBuilder
+    var builder = new html5.Html5Builder
     
     builder.openElement(new ElementNode('div))
     

@@ -1,7 +1,9 @@
 package blitztags
 
-class DOMBuilder(){
-  var currentNode: InnerNode = Html5Document
+trait DOMBuilder{
+  def rootNode: DocumentNode
+  
+  var currentNode: InnerNode = rootNode
   var workStack: List[InnerNode] = Nil
   
   def addChild(n: Node): Unit = {

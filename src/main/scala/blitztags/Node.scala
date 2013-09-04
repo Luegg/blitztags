@@ -63,15 +63,7 @@ case class DocumentNode(
   }
 }
 
-object Html5Document extends DocumentNode(Html5Doctype)
-
-case class DocumentTypeNode extends LeafNode
-
-object Html5Doctype extends DocumentTypeNode {
-  override def toString() = {
-    "<!DOCTYPE html>"
-  }
-}
+trait DocumentTypeNode extends LeafNode
 
 case class TextNode(text: String) extends LeafNode {
   override def toString() = {
