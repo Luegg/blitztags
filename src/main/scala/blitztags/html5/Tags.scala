@@ -35,10 +35,16 @@ object Tags {
   }
 
   def Html = new NormalElementFactory('html) with Global
+  def Head = new NormalElementFactory('html) with Global
+  def Body = new NormalElementFactory('html) with Global
   def Title = new NormalElementFactory('title) with Global
   def Div = new NormalElementFactory('div) with Global
   def P = new NormalElementFactory('p) with Global
   def Em = new NormalElementFactory('em) with Global
   def Script = new RawTextElementFactory('script) with Global
   def Br = new VoidElementFactory('br) with Global
+  def Form = new NormalElementFactory('form) with Global{
+    def method(v: String): this.type = apply('method -> v)
+    def action(v: String): this.type = apply('action -> v)
+  }
 }
