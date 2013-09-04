@@ -39,12 +39,25 @@ object Tags {
   def Body = new NormalElementFactory('html) with Global
   def Title = new NormalElementFactory('title) with Global
   def Div = new NormalElementFactory('div) with Global
+  def Span = new NormalElementFactory('span) with Global
   def P = new NormalElementFactory('p) with Global
   def Em = new NormalElementFactory('em) with Global
+  def H1 = new NormalElementFactory('h1) with Global
+  def H2 = new NormalElementFactory('h2) with Global
   def Script = new RawTextElementFactory('script) with Global
   def Br = new VoidElementFactory('br) with Global
   def Form = new NormalElementFactory('form) with Global{
     def method(v: String): this.type = apply('method -> v)
     def action(v: String): this.type = apply('action -> v)
   }
+  def Label = new NormalElementFactory('label) with Global{
+    def forx(v: String): this.type = apply('for -> v)
+  }
+  def Input = new NormalElementFactory('input) with Global{
+    def typex(v: String): this.type = apply('type -> v)
+  }
+  def Link = new NormalElementFactory('link) with Global{
+    def href(v: String): this.type = apply('href -> v)
+    def rel(v: String): this.type = apply('rel -> v)
+  } 
 }
