@@ -15,7 +15,7 @@ class TemplateSpec extends FlatSpec with ShouldMatchers {
       }
     }
 
-    T("Hello").renderHtml should equal("<!DOCTYPE html><html><div>Hello</div><br></html>")
+    T("Hello").renderHtml should equal("<!DOCTYPE html><html><div>Hello</div><br /></html>")
   }
 
   it should "support common scala expressions" in {
