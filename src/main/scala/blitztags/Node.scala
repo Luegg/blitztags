@@ -1,8 +1,8 @@
 package blitztags
 
-trait Node
+sealed trait Node
 
-sealed trait InnerNode extends Node {
+trait InnerNode extends Node {
   val childNodes: Vector[Node]
 
   def appendChild(n: Node): InnerNode
@@ -16,9 +16,7 @@ case class ElementNode(
   childNodes: Vector[Node] = Vector()) extends InnerNode {
 
   override def toString() = {
-    val attrs =
-      if (attributes.length > 0) attributes.mkString(" ", " ", "")
-      else ""
+    val attrs = attributes.mkString("")
     val childs = childNodes.mkString
 
     s"<${tag.name}$attrs>$childs</${tag.name}>"
@@ -46,13 +44,13 @@ case class VoidElementNode(tag: Symbol, attributes: Vector[AttrNode]) extends Le
 
 case class AttrNode(name: Symbol, value: String) extends LeafNode {
   override def toString() = {
-    s"""${name.name}="${value}""""
+    s""" ${name.name}="${value}""""
   }
 }
 
 case class BooleanAttrNode(name: Symbol, value: Boolean) extends LeafNode {
   override def toString() =
-    if (value) name.name
+    if (value) s" ${name.name}"
     else ""
 }
 
@@ -69,7 +67,11 @@ case class DocumentNode(
   }
 }
 
-trait DocumentTypeNode extends LeafNode
+case class DocumentTypeNode(doctype: String) extends LeafNode{
+  override def toString() = {
+    doctype
+  }
+}
 
 case class TextNode(text: String) extends LeafNode {
   override def toString() = {
