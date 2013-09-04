@@ -3,32 +3,23 @@ package blitztags
 import scala.collection.mutable.MutableList
 
 trait ElementFactory {
-  type T = ElementFactory
-  
   val tag: Symbol
-
-  val attributes: MutableList[AttrNode] = MutableList()
 
   def args2attrs(args: Seq[(Symbol, String)] = Seq()): Vector[AttrNode] = {
     val attrNodes = args map { arg => AttrNode(arg._1, arg._2) }
     attrNodes.toVector
   }
-  
-  def apply(first: (Symbol, String), attrs: (Symbol, String)*): this.type = {
-    attributes ++= args2attrs(first +: attrs)
-    this
-  }
 }
 
 trait Void { self: ElementFactory =>
-  def apply()(implicit builder: DOMBuilder): Unit = {
-    builder.addChild(VoidElementNode(tag, attributes.toVector))
+  def apply(attrs: (Symbol, String)*)(implicit builder: DOMBuilder): Unit = {
+    builder.addChild(VoidElementNode(tag, args2attrs(attrs)))
   }
 }
 
 trait Subtree { self: ElementFactory =>
-  def apply(expr: => Any)(implicit builder: DOMBuilder): Unit = {
-    builder.openElement(ElementNode(tag, attributes.toVector));
+  def apply(attrs: (Symbol, String)*)(expr: => Any)(implicit builder: DOMBuilder): Unit = {
+    builder.openElement(ElementNode(tag, args2attrs(attrs)));
 
     expr match {
       case s: String => builder.addChild(TextNode(s))
@@ -38,11 +29,19 @@ trait Subtree { self: ElementFactory =>
 
     builder.closeElement
   }
+  
+  def apply(expr: => Any)(implicit builder: DOMBuilder): Unit = {
+    apply()(expr)(builder)
+  }
 }
 
 trait RawText { self: ElementFactory =>
+  def apply(attrs: (Symbol, String)*)(text: String)(implicit builder: DOMBuilder): Unit = {
+    builder.addChild(ElementNode(tag, args2attrs(attrs), Vector(TextNode(text))))
+  }
+  
   def apply(text: String)(implicit builder: DOMBuilder): Unit = {
-    builder.addChild(ElementNode(tag, attributes.toVector, Vector(TextNode(text))))
+    apply()(text)(builder)
   }
 }
 

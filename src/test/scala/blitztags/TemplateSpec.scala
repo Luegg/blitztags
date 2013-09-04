@@ -68,16 +68,6 @@ class TemplateSpec extends FlatSpec with ShouldMatchers {
     T("main").renderHtml should equal("""<!DOCTYPE html><div class="container" id="main">Something</div>""")
   }
 
-  it should "support attribute methods" in {
-    case class T() extends Template {
-      Div.id("main").cls("container"){
-        "Something"
-      }
-    }
-
-    T().renderHtml should equal("""<!DOCTYPE html><div id="main" class="container">Something</div>""")
-  }
-
   it should "support methods" in {
     import Tags._
 
