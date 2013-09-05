@@ -3,16 +3,24 @@ package blitztags.html5
 import blitztags._
 
 object Tags {
-  // a text node factory
+  // text nodes
   val T = new {
     def apply(text: String)(implicit builder: DOMBuilder): Unit = {
       builder.addChild(TextNode(text))
     }
   }
   
+  // comment nodes
   val / = new{
     def apply(text: String)(implicit builder: DOMBuilder): Unit = {
       builder.addChild(CommentNode(text))
+    }
+  }
+  
+  // hack for enabling XML in templates
+  val Xml = new{
+    def apply(content: => scala.xml.Elem)(implicit builder: DOMBuilder): Unit = {
+      builder.addChild(TextNode(content.toString))
     }
   }
 
