@@ -35,9 +35,7 @@ case class CommentNode(text: String) extends LeafNode{
 
 case class VoidElementNode(tag: Symbol, attributes: Vector[AttrNode]) extends LeafNode {
   override def toString() = {
-    val attrs =
-      if (attributes.length > 0) attributes.mkString(" ", " ", "")
-      else ""
+    val attrs = attributes.mkString("")
     s"<${tag.name}$attrs />"
   }
 }
