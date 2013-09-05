@@ -11,13 +11,13 @@ trait ElementFactory {
   }
 }
 
-trait Void { self: ElementFactory =>
+class VoidElementFactory(val tag: Symbol) extends ElementFactory {
   def apply(attrs: (Symbol, String)*)(implicit builder: DOMBuilder): Unit = {
     builder.addChild(VoidElementNode(tag, args2attrs(attrs)))
   }
 }
 
-trait Subtree { self: ElementFactory =>
+class NormalElementFactory(val tag: Symbol) extends ElementFactory {
   def apply(attrs: (Symbol, Any)*)(expr: => Any)(implicit builder: DOMBuilder): Unit = {
     builder.openElement(ElementNode(tag, args2attrs(attrs)));
 
@@ -29,24 +29,18 @@ trait Subtree { self: ElementFactory =>
 
     builder.closeElement
   }
-  
+
   def apply(expr: => Any)(implicit builder: DOMBuilder): Unit = {
     apply()(expr)(builder)
   }
 }
 
-trait RawText { self: ElementFactory =>
-  def apply(attrs: (Symbol, Any)*)(text: String)(implicit builder: DOMBuilder): Unit = {
-    builder.addChild(ElementNode(tag, args2attrs(attrs), Vector(TextNode(text))))
+class RawTextElementFactory(val tag: Symbol) extends ElementFactory {
+  def apply(attrs: (Symbol, Any)*)(expr: => String = "")(implicit builder: DOMBuilder): Unit = {
+    builder.addChild(ElementNode(tag, args2attrs(attrs), Vector(TextNode(expr))))
   }
-  
+
   def apply(text: String)(implicit builder: DOMBuilder): Unit = {
     apply()(text)(builder)
   }
 }
-
-class VoidElementFactory(val tag: Symbol) extends ElementFactory with Void
-
-class NormalElementFactory(val tag: Symbol) extends ElementFactory with Subtree
-
-class RawTextElementFactory(val tag: Symbol) extends ElementFactory with Void with RawText
