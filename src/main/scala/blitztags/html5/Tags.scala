@@ -16,13 +16,6 @@ object Tags {
       builder.addChild(CommentNode(text))
     }
   }
-  
-  // hack for enabling XML in templates
-  val Xml = new{
-    def apply(content: => scala.xml.Elem)(implicit builder: DOMBuilder): Unit = {
-      builder.addChild(TextNode(content.toString))
-    }
-  }
 
   // root element
   val Html = new NormalElementFactory('html)
