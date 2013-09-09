@@ -9,21 +9,9 @@ import org.scalatest.matchers.MatchResult
 import blitztags.AddVoidElement
 import blitztags.AddRawTextElement
 import blitztags.AddNormalElement
+import blitztags.TemplateMatchers
 
-class Examples extends FreeSpec with ShouldMatchers {
-  val prettyPrinter = new PrettyPrinter(80, 4)
-
-  val matchXml = (right: Node) => new Matcher[Template] {
-    def apply(left: Template) = {
-      val leftRes = prettyPrinter.format(left.toXml)
-      val rightRes = prettyPrinter.format(right)
-      MatchResult(
-        leftRes == rightRes,
-        "Template\n" + leftRes + "\nis not congruent with\n" + rightRes,
-        "Template\n" + leftRes + "\nis congruent with\n" + rightRes)
-    }
-  }
-
+class Examples extends FreeSpec with ShouldMatchers with TemplateMatchers{
   "blitztags examples" - {
     "hello world" in {
       case class Page(title: String) extends Template {
