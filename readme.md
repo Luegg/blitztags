@@ -84,20 +84,19 @@ Html('lang -> "de"){
 Furthermore, every tag method defined in `blitztags.html5.Tags` constructs elements of one of the following types:
 
 - **Void Elements** Don't have any content, are parsed without the end tag
-        ```scala
+
         Br() // -> <br/>
         Br('class -> "separator") // -> <br class="separator"/>
-        ```
+
 - **Raw Text Elements** Have only text content
-        ```scala
+
         Title{ "Hello world" } // -> <title>Hello world</title>
         Title('lang -> "en"){} // -> <title lang="en"></title>
-        ```
+
 - **Normal Elements** Have any kind of content
-        ```scala
+
         Div{ Div{ "text" } } // -> <div><div>text</div></div>
         Div('class -> "empty"){} // -> <div class="empty"/>
-        ```
 
 ## Examples
 
