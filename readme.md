@@ -83,17 +83,17 @@ Html('lang -> "de"){
 
 Furthermore, every tag method defined in `blitztags.html5.Tags` constructs elements of one of the following types:
 
-- **Void Elements** Don't have any content, are parsed without the end tag
+- **Void Elements** don't have any content, are always printed without the end tag
 
         Br() // -> <br/>
         Br('class -> "separator") // -> <br class="separator"/>
 
-- **Raw Text Elements** Have only text content
+- **Raw Text Elements** have only text content, are always printed with end tags
 
         Title{ "Hello world" } // -> <title>Hello world</title>
         Title('lang -> "en"){} // -> <title lang="en"></title>
 
-- **Normal Elements** Have any kind of content
+- **Normal Elements** Have any kind of content, are printed without end tag if empty
 
         Div{ Div{ "text" } } // -> <div><div>text</div></div>
         Div('class -> "empty"){} // -> <div class="empty"/>
