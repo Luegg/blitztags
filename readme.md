@@ -101,4 +101,41 @@ Furthermore, every tag method defined in `blitztags.html5.Tags` constructs eleme
 
 ## Examples
 
-Please check the examples in [this Specification]().
+Please check the examples in [this specification]().
+
+## blitztags in Play!
+
+To use blitztags templates in the Play! framework, Play! needs some help to convert it into a Writeable. Just use a trait like the following in your controllers to provide the required implicits:
+
+```scala
+trait WithBlitztags {
+  implicit def contentTypeOfBlitztags(implicit codec: Codec): ContentTypeOf[Template] = {
+    ContentTypeOf[Template](Some(ContentTypes.HTML))
+  }
+      
+  implicit def writeableOfBlitztags(implicit codec: Codec): Writeable[Template] = {
+    Writeable(template => codec.encode(template.prettyPrint))
+  }
+}
+```
+
+Now you're ready to use blitztags:
+
+```scala
+// in your views package
+case class Index(title: String, message: String) extends Template{
+  Html{
+    Title{ title }
+    Div{
+      P { message }
+    }
+  }
+}
+
+// in your controllers package
+object Application extends Controller with WithBlitztags {
+  def index = Action {
+    Ok(views.Index("Hello world", "This site is rendered with blitztags!"))
+  }
+}
+```
