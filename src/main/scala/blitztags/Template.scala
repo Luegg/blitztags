@@ -1,11 +1,15 @@
 package blitztags
 
+import scala.xml.PrettyPrinter
+
 trait Template {
   implicit val builder = new XmlBuilder{}
   
   def toXml = builder.document.docElem
   
-  def prettyPrint: String
+  val prettyPrinter = new PrettyPrinter(80, 4)
   
-  def miniPrint: String
+  def prettyPrint = prettyPrinter.format(toXml)
+  
+  def miniPrint = toXml.toString
 }

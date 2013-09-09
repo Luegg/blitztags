@@ -7,13 +7,11 @@ trait Template extends blitztags.Template{
   
   val doctype = "<!DOCTYPE html>"
     
-  val prettyPrinter = new PrettyPrinter(80, 4)
-    
-  def prettyPrint = {
+  override def prettyPrint = {
     doctype + "\n" + prettyPrinter.format(toXml)
   }
     
-  def miniPrint = {
+  override def miniPrint = {
     doctype + "\n" + toXml.toString
   }
 }
