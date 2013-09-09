@@ -61,20 +61,18 @@ class Examples extends FreeSpec with ShouldMatchers with TemplateMatchers{
     }
 
     "methods" in {
-      case class Page(text: String) extends Template {
+      new Template {
         def twiceAndBold(content: => Any) = {
           B { content }
           B { content }
         }
 
         Html {
-          twiceAndBold { I { text } }
+          twiceAndBold { I { "test" } }
           var i = 0
           twiceAndBold { i = i + 1; i }
         }
-      }
-
-      Page("test") should matchXml(
+      } should matchXml(
         <html>
           <b><i>test</i></b><b><i>test</i></b>
           <b>1</b><b>2</b>
@@ -95,13 +93,11 @@ class Examples extends FreeSpec with ShouldMatchers with TemplateMatchers{
         }
       }
 
-      case class Page(title: String) extends Template with Layout {
-        page(title) {
+      new Template with Layout {
+        page("Fairytale") {
           P { "Once upon a time..." }
         }
-      }
-
-      Page("Fairytale") should matchXml(
+      } should matchXml(
         <html>
           <title>Fairytale</title>
           <body>
@@ -113,27 +109,23 @@ class Examples extends FreeSpec with ShouldMatchers with TemplateMatchers{
     }
 
     "text nodes and html comments" in {
-      case class Page(text: String) extends Template {
+      new Template {
         Html {
-          T { text }
+          T { "hi" }
           / { "just one more slash for a Scala comment" }
         }
-      }
-
-      Page("hi") should matchXml(
+      } should matchXml(
         <html>hi<!--just one more slash for a Scala comment--></html>)
     }
 
     "inline XML" in {
-      case class Page() extends Template {
+      new Template {
         Html {
           Div {
             <p><em>Sometimes</em> it's easier to just use <small>XML</small> literals</p>
           }
         }
-      }
-
-      Page() should matchXml(
+      } should matchXml(
         <html>
           <div>
             <p><em>Sometimes</em> it's easier to just use <small>XML</small> literals</p>
@@ -142,13 +134,11 @@ class Examples extends FreeSpec with ShouldMatchers with TemplateMatchers{
     }
 
     "unescaped text" in {
-      case class Page(harmless: String) extends Template {
+      new Template {
         Html {
-          Unparsed(harmless)
+          Unparsed("""<script>alert("XSS!");</script>""")
         }
-      }
-
-      Page("""<script>alert("XSS!");</script>""").toXml.toString should be(
+      }.toXml.toString should be(
         """<html><script>alert("XSS!");</script></html>""")
     }
 
@@ -159,7 +149,7 @@ class Examples extends FreeSpec with ShouldMatchers with TemplateMatchers{
         val Cloud = AddNormalElement("cloud")
 
         Html {
-          Ruler()
+          Ruler('from -> 1, 'to -> 8)
           Story { "Once upon a time..." }
           Cloud {
             P { "first" }
@@ -168,7 +158,7 @@ class Examples extends FreeSpec with ShouldMatchers with TemplateMatchers{
         }
       } should matchXml(
         <html>
-          <ruler/>
+          <ruler from="1" to="8"/>
           <story>Once upon a time...</story>
           <cloud>
             <p>first</p>
