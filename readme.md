@@ -101,7 +101,7 @@ Furthermore, every tag method defined in `blitztags.html5.Tags` constructs eleme
 
 ## Examples
 
-Please check the examples in [this specification]().
+Please check the examples in [this specification](https://github.com/Luegg/blitztags/blob/master/src/test/scala/blitztags/html5/Examples.scala).
 
 ## blitztags in Play!
 
