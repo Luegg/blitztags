@@ -14,10 +14,10 @@ case class AddVoidElement(tagName: String) extends AddElementCommand {
 }
 
 case class AddRawTextElement(tagName: String) extends AddElementCommand {
-  def apply(attrs: (Symbol, Any)*)(expr: => Any)(implicit builder: XmlBuilder): Unit = {
-    val childs = expr match{
+  def apply(attrs: (Symbol, Any)*)(content: Any)(implicit builder: XmlBuilder): Unit = {
+    val childs = content match{
       case _: Unit => Seq()
-      case a: Any => Seq(Unparsed(a.toString))
+      case a: Any => Seq(new Text(a.toString))
     }
     builder.addChild(new Elem(null, tagName, args2attrs(attrs), TopScope, false, childs: _*))
   }

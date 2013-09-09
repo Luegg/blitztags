@@ -30,7 +30,7 @@ class AddRawTextElementSpec extends FlatSpec with ShouldMatchers with MockFactor
 
   "the AddRawTextElement command" should "instruct the builder to add a new raw text element" in{
     implicit val b = mock[XmlBuilder]
-    (b.addChild _) expects (<script>{Unparsed("""console.log("Hello World");""")}</script>)
+    (b.addChild _) expects (<script>console.log("Hello World");</script>)
     
     Script{
       """console.log("Hello World");"""

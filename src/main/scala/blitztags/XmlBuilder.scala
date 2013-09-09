@@ -20,7 +20,7 @@ trait XmlBuilder {
 
   val document = new Document()
 
-  // explicitly apply implicit class because issues with scalamock
+  // explicitly apply implicit class because of issues with scalamock
   var currentNode: XmlWrapper = new ExtDocument(document)
 
   var workStack: List[XmlWrapper] = Nil
