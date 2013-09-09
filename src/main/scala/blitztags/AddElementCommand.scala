@@ -4,7 +4,7 @@ import scala.xml._
 
 trait AddElementCommand {
   def args2attrs(args: Seq[(Symbol, Any)]) =
-    args.foldLeft(Null: MetaData)({ case (attr, (key, value)) => new UnprefixedAttribute(key.name, value.toString, attr) })
+    args.foldRight(Null: MetaData)({ case ((key, value), attr) => new UnprefixedAttribute(key.name, value.toString, attr) })
 }
 
 case class AddVoidElement(tagName: String) extends AddElementCommand {
