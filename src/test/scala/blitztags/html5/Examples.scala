@@ -6,6 +6,9 @@ import Tags._
 import scala.xml._
 import org.scalatest.matchers.Matcher
 import org.scalatest.matchers.MatchResult
+import blitztags.AddVoidElement
+import blitztags.AddRawTextElement
+import blitztags.AddNormalElement
 
 class Examples extends FreeSpec with ShouldMatchers {
   val prettyPrinter = new PrettyPrinter(80, 4)
@@ -159,6 +162,31 @@ class Examples extends FreeSpec with ShouldMatchers {
 
       Page("""<script>alert("XSS!");</script>""").toXml.toString should be(
         """<html><script>alert("XSS!");</script></html>""")
+    }
+
+    "custom tags" in {
+      new Template {
+        val Ruler = AddVoidElement("ruler")
+        val Story = AddRawTextElement("story")
+        val Cloud = AddNormalElement("cloud")
+
+        Html {
+          Ruler()
+          Story { "Once upon a time..." }
+          Cloud {
+            P { "first" }
+            P { "second" }
+          }
+        }
+      } should matchXml(
+        <html>
+          <ruler/>
+          <story>Once upon a time...</story>
+          <cloud>
+            <p>first</p>
+            <p>second</p>
+          </cloud>
+        </html>)
     }
   }
 }
