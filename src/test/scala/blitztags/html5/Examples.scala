@@ -40,7 +40,7 @@ class Examples extends FreeSpec with ShouldMatchers with TemplateMatchers{
               Li {
                 item match {
                   case s: String => B { s }
-                  case a: Any => a
+                  case _: Any => item
                 }
               }
             }
@@ -62,6 +62,7 @@ class Examples extends FreeSpec with ShouldMatchers with TemplateMatchers{
 
     "methods" in {
       new Template {
+        // note the call by name `content` parameter
         def twiceAndBold(content: => Any) = {
           B { content }
           B { content }
@@ -69,6 +70,7 @@ class Examples extends FreeSpec with ShouldMatchers with TemplateMatchers{
 
         Html {
           twiceAndBold { I { "test" } }
+          // be cautious with side effects!
           var i = 0
           twiceAndBold { i = i + 1; i }
         }
@@ -81,6 +83,7 @@ class Examples extends FreeSpec with ShouldMatchers with TemplateMatchers{
 
     "layouts and inheritance" in {
       trait Layout { self: Template =>
+        // note the call by name `content` parameter
         def page(title: String)(content: => Unit) = {
           Html {
             Title { title }
@@ -111,11 +114,11 @@ class Examples extends FreeSpec with ShouldMatchers with TemplateMatchers{
     "text nodes and html comments" in {
       new Template {
         Html {
-          T { "hi" }
+          T { "I'm a text node" }
           / { "just one more slash for a Scala comment" }
         }
       } should matchXml(
-        <html>hi<!--just one more slash for a Scala comment--></html>)
+        <html>I'm a text node<!--just one more slash for a Scala comment--></html>)
     }
 
     "inline XML" in {
@@ -136,6 +139,7 @@ class Examples extends FreeSpec with ShouldMatchers with TemplateMatchers{
     "unescaped text" in {
       new Template {
         Html {
+          // just use scala.xml.Unparsed to include unsanitized input
           Unparsed("""<script>alert("XSS!");</script>""")
         }
       }.toXml.toString should be(
