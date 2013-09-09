@@ -3,7 +3,7 @@ package blitztags
 trait Template {
   implicit val builder = new XmlBuilder{}
   
-  def document = builder.document.docElem
+  def toXml = builder.document.docElem
   
   def prettyPrint: String
   

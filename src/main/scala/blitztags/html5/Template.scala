@@ -10,10 +10,10 @@ trait Template extends blitztags.Template{
   val prettyPrinter = new PrettyPrinter(80, 4)
     
   def prettyPrint = {
-    doctype + "\n" + prettyPrinter.format(document)
+    doctype + "\n" + prettyPrinter.format(toXml)
   }
     
   def miniPrint = {
-    doctype + "\n" + document.toString
+    doctype + "\n" + toXml.toString
   }
 }
