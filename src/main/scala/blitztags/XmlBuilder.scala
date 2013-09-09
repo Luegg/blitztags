@@ -4,18 +4,18 @@ import scala.xml._
 
 trait XmlBuilder {
   trait XmlWrapper {
-    def addChild(n: scala.xml.Node): XmlWrapper
+    def addChild(n: Node): XmlWrapper
   }
 
   implicit class ExtDocument(val doc: Document) extends XmlWrapper {
-    def addChild(n: scala.xml.Node) = {
+    def addChild(n: Node) = {
       doc.docElem = n
       doc
     }
   }
 
   implicit class ExtElem(val elem: Elem) extends XmlWrapper {
-    def addChild(n: scala.xml.Node) = elem.copy(child = elem.child.toSeq ++ n)
+    def addChild(n: Node) = elem.copy(child = elem.child.toSeq ++ n)
   }
 
   val document = new Document()
@@ -25,7 +25,7 @@ trait XmlBuilder {
 
   var workStack: List[XmlWrapper] = Nil
 
-  def addChild(n: scala.xml.Node): Unit = {
+  def addChild(n: Node): Unit = {
     currentNode = currentNode.addChild(n)
   }
 
