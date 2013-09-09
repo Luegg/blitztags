@@ -32,7 +32,7 @@ case class AddNormalElement(tagName: String) extends AddElementCommand{
     builder.startElement(new Elem(null, tagName, args2attrs(attrs), TopScope, true))
     expr match{
       case _: Unit => ()
-      case elem: Elem => builder.addChild(elem)
+      case elem: Node => builder.addChild(elem)
       case a: Any => AddText(a.toString)
     }
     builder.endElement

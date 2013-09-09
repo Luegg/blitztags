@@ -96,6 +96,17 @@ class AddNormalElementSpec extends FlatSpec with ShouldMatchers with MockFactory
       H2{ "second" }
     }
   }
+  
+  it should "allow Unparsed xml nodes" in {
+    implicit val b = mock[XmlBuilder]
+    (b.startElement _) expects (<p/>)
+    (b.addChild _) expects (Unparsed("""<script>console.log("oops");</script>"""))
+    (b.endElement _) expects ()
+    
+    P{
+      Unparsed("""<script>console.log("oops");</script>""")
+    }
+  }
 }
 
 class AddCommentSpec extends FlatSpec with ShouldMatchers with MockFactory{
