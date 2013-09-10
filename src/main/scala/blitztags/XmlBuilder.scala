@@ -3,27 +3,27 @@ package blitztags
 import scala.xml._
 
 trait XmlBuilder {
-  private[this] trait XmlWrapper {
+  protected trait XmlWrapper {
     def addChild(n: Node): XmlWrapper
   }
 
-  implicit private[this] class ExtDocument(val doc: Document) extends XmlWrapper {
+  implicit protected class ExtDocument(val doc: Document) extends XmlWrapper {
     def addChild(n: Node) = {
       doc.docElem = n
       doc
     }
   }
 
-  implicit private[this] class ExtElem(val elem: Elem) extends XmlWrapper {
+  implicit protected class ExtElem(val elem: Elem) extends XmlWrapper {
     def addChild(n: Node) = elem.copy(child = elem.child.toSeq ++ n)
   }
 
   val document = new Document()
 
   // explicitly apply implicit class because of issues with scalamock
-  private var currentNode: XmlWrapper = new ExtDocument(document)
+  protected var currentNode: XmlWrapper = new ExtDocument(document)
 
-  private var workStack: List[XmlWrapper] = Nil
+  protected var workStack: List[XmlWrapper] = Nil
 
   def addChild(n: Node): Unit = {
     currentNode = currentNode.addChild(n)
