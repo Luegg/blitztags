@@ -3,12 +3,11 @@ package blitztags
 import org.scalatest.FlatSpec
 import org.scalatest.matchers.ShouldMatchers
 import org.scalamock.scalatest.MockFactory
-import scala.xml.Text
-import scala.xml.Unparsed
-import scala.xml.Comment
+import scala.xml._
+import blitztags.AddElementCommands._
 
 class AddVoidElementSpec extends FlatSpec with ShouldMatchers with MockFactory{
-  val Br = AddVoidElement("br")
+  val Br = VoidElement("br")
 
   "the AddVoidElement command" should "instruct the builder to add a new void element" in{
     implicit val b = mock[XmlBuilder]
@@ -26,7 +25,7 @@ class AddVoidElementSpec extends FlatSpec with ShouldMatchers with MockFactory{
 }
 
 class AddRawTextElementSpec extends FlatSpec with ShouldMatchers with MockFactory{
-  val Script = AddRawTextElement("script")
+  val Script = RawTextElement("script")
 
   "the AddRawTextElement command" should "instruct the builder to add a new raw text element" in{
     implicit val b = mock[XmlBuilder]
@@ -46,9 +45,9 @@ class AddRawTextElementSpec extends FlatSpec with ShouldMatchers with MockFactor
 }
 
 class AddNormalElementSpec extends FlatSpec with ShouldMatchers with MockFactory{
-  val P = AddNormalElement("p")
-  val H1 = AddNormalElement("h1")
-  val H2 = AddNormalElement("h2")
+  val P = NormalElement("p")
+  val H1 = NormalElement("h1")
+  val H2 = NormalElement("h2")
   
   "the AddNormalElement command" should "instruct the builder to add a new normal element" in{
     implicit val b = mock[XmlBuilder]
@@ -110,7 +109,7 @@ class AddNormalElementSpec extends FlatSpec with ShouldMatchers with MockFactory
 }
 
 class AddCommentSpec extends FlatSpec with ShouldMatchers with MockFactory{
-  val Comment = AddComment
+  val Comment = CommentNode
   
   "the AddComment command" should "instruct the builder to add a new comment" in {
     implicit val b = mock[XmlBuilder]
@@ -121,7 +120,7 @@ class AddCommentSpec extends FlatSpec with ShouldMatchers with MockFactory{
 }
 
 class AddTextSpec extends FlatSpec with ShouldMatchers with MockFactory{
-  val T = AddText
+  val T = TextNode
   
   "the AddText command" should "instruct the builder to add a new text node" in {
     implicit val b = mock[XmlBuilder]

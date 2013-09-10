@@ -5,9 +5,7 @@ import org.scalatest.FreeSpec
 import scala.xml._
 import org.scalatest.matchers.Matcher
 import org.scalatest.matchers.MatchResult
-import blitztags.AddVoidElement
-import blitztags.AddRawTextElement
-import blitztags.AddNormalElement
+import blitztags.AddElementCommands._
 import blitztags.TemplateMatchers
 
 class Examples extends FreeSpec with ShouldMatchers with TemplateMatchers{
@@ -147,9 +145,9 @@ class Examples extends FreeSpec with ShouldMatchers with TemplateMatchers{
 
     "custom tags" in {
       new Template {
-        val Ruler = AddVoidElement("ruler")
-        val Story = AddRawTextElement("story")
-        val Cloud = AddNormalElement("cloud")
+        val Ruler = VoidElement("ruler")
+        val Story = RawTextElement("story")
+        val Cloud = NormalElement("cloud")
 
         Html {
           Ruler('from -> 1, 'to -> 8)
