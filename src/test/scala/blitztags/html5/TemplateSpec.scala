@@ -2,7 +2,6 @@ package blitztags.html5
 
 import org.scalatest.FlatSpec
 import org.scalatest.matchers.ShouldMatchers
-import Tags._
 
 class TemplateSpec extends FlatSpec with ShouldMatchers {
   "a HTML5 template" should "print html" in {

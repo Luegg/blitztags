@@ -2,7 +2,6 @@ package blitztags.html5
 
 import org.scalatest.matchers.ShouldMatchers
 import org.scalatest.FreeSpec
-import Tags._
 import scala.xml._
 import org.scalatest.matchers.Matcher
 import org.scalatest.matchers.MatchResult

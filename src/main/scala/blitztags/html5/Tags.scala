@@ -2,7 +2,7 @@ package blitztags.html5
 
 import blitztags._
 
-object Tags {
+trait Tags {
   // text nodes
   val T = AddText
   
