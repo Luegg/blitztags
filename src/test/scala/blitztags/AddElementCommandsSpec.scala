@@ -6,7 +6,7 @@ import org.scalamock.scalatest.MockFactory
 import scala.xml._
 import blitztags.AddElementCommands._
 
-class AddVoidElementSpec extends FlatSpec with ShouldMatchers with MockFactory{
+class VoidElementSpec extends FlatSpec with ShouldMatchers with MockFactory{
   val Br = VoidElement("br")
 
   "the AddVoidElement command" should "instruct the builder to add a new void element" in{
@@ -24,7 +24,7 @@ class AddVoidElementSpec extends FlatSpec with ShouldMatchers with MockFactory{
   }
 }
 
-class AddRawTextElementSpec extends FlatSpec with ShouldMatchers with MockFactory{
+class RawTextElementSpec extends FlatSpec with ShouldMatchers with MockFactory{
   val Script = RawTextElement("script")
 
   "the AddRawTextElement command" should "instruct the builder to add a new raw text element" in{
@@ -44,7 +44,7 @@ class AddRawTextElementSpec extends FlatSpec with ShouldMatchers with MockFactor
   }
 }
 
-class AddNormalElementSpec extends FlatSpec with ShouldMatchers with MockFactory{
+class NormalElementSpec extends FlatSpec with ShouldMatchers with MockFactory{
   val P = NormalElement("p")
   val H1 = NormalElement("h1")
   val H2 = NormalElement("h2")
@@ -108,7 +108,7 @@ class AddNormalElementSpec extends FlatSpec with ShouldMatchers with MockFactory
   }
 }
 
-class AddCommentSpec extends FlatSpec with ShouldMatchers with MockFactory{
+class CommentNodeSpec extends FlatSpec with ShouldMatchers with MockFactory{
   val Comment = CommentNode
   
   "the AddComment command" should "instruct the builder to add a new comment" in {
@@ -119,7 +119,7 @@ class AddCommentSpec extends FlatSpec with ShouldMatchers with MockFactory{
   }
 }
 
-class AddTextSpec extends FlatSpec with ShouldMatchers with MockFactory{
+class TextNodeSpec extends FlatSpec with ShouldMatchers with MockFactory{
   val T = TextNode
   
   "the AddText command" should "instruct the builder to add a new text node" in {
