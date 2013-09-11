@@ -1,12 +1,11 @@
-package blitztags.html5
+package blitztags.examples
 
 import org.scalatest.matchers.ShouldMatchers
 import org.scalatest.FreeSpec
 import scala.xml._
-import org.scalatest.matchers.Matcher
-import org.scalatest.matchers.MatchResult
 import blitztags.AddElementCommands._
 import blitztags.TemplateMatchers
+import blitztags.html5._
 
 class Examples extends FreeSpec with ShouldMatchers with TemplateMatchers{
   "blitztags examples" - {
