@@ -5,7 +5,7 @@ blitztags is an internal Scala DSL for writing HTML (and XML) templates. It lets
 A blitztags template is written in pure Scala:
 
 ```scala
-import blitztags.html5
+import blitztags.html5._
 
 case class Page(title: String, items: List[String]) extends Template{
   Html{
@@ -45,7 +45,7 @@ Every template must extend the `blitztags.Template` trait. It provides an implic
 In order to write a HTML5 template, you can extend `blitztags.html5.Template`.
 
 ```scala
-import blitztags.html5
+import blitztags.html5._
 
 case class Page(title: String) extends Template {
   Html{
