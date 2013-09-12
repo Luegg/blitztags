@@ -1,5 +1,7 @@
 # blitztags
 
+[![Build Status](https://travis-ci.org/Luegg/blitztags.png?branch=master)](https://travis-ci.org/Luegg/blitztags)
+
 blitztags is an internal Scala DSL for writing HTML (and XML) templates. It lets you use all the Scala language constructs you are familiar with and does not introduce a new language.
 
 A blitztags template is written in pure Scala:
@@ -142,3 +144,17 @@ object Application extends Controller with WithBlitztags {
   }
 }
 ```
+
+## FAQ
+
+### Is it thread-safe?
+
+Indeed blitztags uses side effects for constructing XML trees, but they are encapsulated and only used during initialisation of `Template` objects. After templates are initialised, you could happily pass them around between threads as you would do with any other value object. 
+
+### Is it fast?
+
+It depends on your point of view:
+
+* **Runtime Performance** Since blitztags constructs a XML tree before generating the output it is probably not very performant compared to template engines that solely depend on string concatenation at runtime.
+* **Compile Time Performance** blitztags templates are compiled with scalac, so probably not that fast.
+* **Development Performance** I believe this is where blitztags really shines. It has a compact syntax, does not force you to look up some obscure language constructs and makes the use of functions as natural as it should be. It really helps you, to create [DRY](http://en.wikipedia.org/wiki/Don%27t_repeat_yourself) templates that are easy to maintain.
