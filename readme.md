@@ -99,10 +99,10 @@ Furthermore, every tag method defined in `blitztags.html5.Tags` constructs eleme
         Title{ "Hello world" } // -> <title>Hello world</title>
         Title('lang -> "en"){} // -> <title lang="en"></title>
 
-- **Normal Elements** Have any kind of content, are printed without end tag if empty
+- **Normal Elements** Have any kind of content, are always printed with end tags
 
         Div{ Div{ "text" } } // -> <div><div>text</div></div>
-        Div('class -> "empty"){} // -> <div class="empty"/>
+        Div('class -> "empty"){} // -> <div class="empty"></div>
 
 ## Examples
 
