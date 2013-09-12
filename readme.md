@@ -32,6 +32,8 @@ case class Page(title: String, items: List[String]) extends Template{
 }
 ```
 
+This library is distributed under the [MIT](http://en.wikipedia.org/wiki/MIT_License) license.
+
 ## Idea
 
 blitztags is inspired by [Play! templates](http://www.playframework.com/documentation/2.1.x/ScalaTemplates) which also reuses the Scala language constructs. Unlike Play! templates, blitztags does not require any additional parsing and is fully supported in every Scala IDE.
