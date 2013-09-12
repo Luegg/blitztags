@@ -40,4 +40,16 @@ class XmlBuilderSpec extends FlatSpec with ShouldMatchers {
     
     b.document.docElem should be (<first><second><third>3</third><fourth>4</fourth></second></first>)
   }
+  
+  it should "build sequential empty nodes" in {
+    val b = new XmlBuilder{}
+    b.startElement(<first/>)
+    b.startElement(<second/>)
+    b.endElement
+    b.startElement(<third/>)
+    b.endElement
+    b.endElement
+    
+    b.document.docElem should be (<first><second/><third/></first>)
+  }
 }

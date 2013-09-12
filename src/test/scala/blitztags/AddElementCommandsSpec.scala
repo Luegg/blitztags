@@ -106,6 +106,17 @@ class NormalElementSpec extends FlatSpec with ShouldMatchers with MockFactory{
       Unparsed("""<script>console.log("oops");</script>""")
     }
   }
+  
+  it should "executes sequential commands in correct order" in {
+    implicit val b = mock[XmlBuilder]
+    (b.startElement _) expects (<p/>)
+    (b.endElement _) expects ()
+    (b.startElement _) expects (<p/>)
+    (b.endElement _) expects ()
+    
+    P{}
+    P{}
+  }
 }
 
 class CommentNodeSpec extends FlatSpec with ShouldMatchers with MockFactory{

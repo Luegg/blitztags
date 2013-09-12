@@ -4,7 +4,7 @@ import org.scalatest.FlatSpec
 import org.scalatest.matchers.ShouldMatchers
 
 class TemplateSpec extends FlatSpec with ShouldMatchers {
-  "a HTML5 template" should "print html" in {
+  "a HTML5 template" should "print html with doctype" in {
     case class Page(title: String) extends Template {
       Html {
         Head {

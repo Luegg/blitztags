@@ -77,7 +77,7 @@ object AddElementCommands {
    * A command that creates normal HTML elements.
    * 
    * Normal elements content is either empty, text or a sequence of HTML nodes.
-   * They are printed without the end tag if empty.
+   * They are always printed with the according end tag.
    * 
    * {{{
    * implicit val _ = new XmlBuilder
@@ -93,7 +93,7 @@ object AddElementCommands {
    */
   case class NormalElement(tagName: String) {
     def apply(attrs: (Symbol, Any)*)(expr: => Any)(implicit builder: XmlBuilder): Unit = {
-      builder.startElement(new Elem(null, tagName, args2attrs(attrs), TopScope, true))
+      builder.startElement(new Elem(null, tagName, args2attrs(attrs), TopScope, false))
       expr match {
         case _: Unit => ()
         case elem: Node => builder.addChild(elem)
