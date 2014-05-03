@@ -10,13 +10,22 @@ import scala.xml._
  * in `scala.xml.Unparsed`.
  */
 object AddElementCommands {
+  trait Attr{
+    def prependTo(attributes: MetaData): MetaData
+  }
+  
+  class AttrPair(val p: (Symbol, String)) extends Attr{
+    def prependTo(attributes: MetaData) =
+      new UnprefixedAttribute(p._1.name, p._2, attributes)
+  }
+  
   /**
    * Converts HTML attribute arguments to [[scala.xml.Metadata]].
    * 
    * It converts every value to a String by calling it's `toString` method.
    */
-  def args2attrs(args: Seq[(Symbol, Any)]) =
-    args.foldRight(Null: MetaData)({ case ((key, value), attr) => new UnprefixedAttribute(key.name, value.toString, attr) })
+  def args2attrs(args: Seq[Attr]) =
+    args.foldRight(Null: MetaData)({ case (a, as) => a.prependTo(as) })
 
   /**
    * A command that creates void HTML elements.
@@ -37,7 +46,7 @@ object AddElementCommands {
     /**
      * Instructs the `builder` to append a void element with tag `tagName` and the attributes `attrs`
      */
-    def apply(attrs: (Symbol, Any)*)(implicit builder: XmlBuilder): Unit = {
+    def apply(attrs: Attr*)(implicit builder: XmlBuilder): Unit = {
       builder.addChild(new Elem(null, tagName, args2attrs(attrs), TopScope, true))
     }
   }
@@ -60,8 +69,8 @@ object AddElementCommands {
    * }}}
    */
   case class RawTextElement(tagName: String) {
-    def apply(attrs: (Symbol, Any)*)(content: Any)(implicit builder: XmlBuilder): Unit = {
-      val childs = content match {
+    def apply(attrs: Attr*)(expr: => Any)(implicit builder: XmlBuilder): Unit = {
+      val childs = expr match {
         case _: Unit => Seq()
         case a: Any => Seq(new Text(a.toString))
       }
@@ -92,7 +101,7 @@ object AddElementCommands {
    * }}}
    */
   case class NormalElement(tagName: String) {
-    def apply(attrs: (Symbol, Any)*)(expr: => Any)(implicit builder: XmlBuilder): Unit = {
+    def apply(attrs: Attr*)(expr: => Any)(implicit builder: XmlBuilder): Unit = {
       builder.startElement(new Elem(null, tagName, args2attrs(attrs), TopScope, false))
       expr match {
         case _: Unit => ()

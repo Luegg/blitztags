@@ -11,7 +11,7 @@ class TemplateSpec extends FlatSpec with ShouldMatchers with TemplateMatchers {
   val Keyword = new VoidElement("keyword")
 
   "a XML template" should "render XML documents" in {
-    new Template {
+    new BaseTemplate {
       Book {
         Author { "Chris Cross" }
         Keyword('value -> "Crossword")
@@ -21,7 +21,7 @@ class TemplateSpec extends FlatSpec with ShouldMatchers with TemplateMatchers {
   }
 
   it should "render sequential empty normal elements with end tag" in {
-    new Template {
+    new BaseTemplate {
       Books {
         Book {}
         Book {}

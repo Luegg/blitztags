@@ -1,15 +1,13 @@
 package blitztags.html5
 
-import scala.xml.PrettyPrinter
-
-trait Template extends blitztags.Template{
+trait Template extends blitztags.BaseTemplate{
   val doctype = "<!DOCTYPE html>"
     
   override def prettyPrint = {
-    doctype + "\n" + prettyPrinter.format(toXml)
+    doctype + "\n" + super.prettyPrint
   }
     
   override def miniPrint = {
-    doctype + "\n" + toXml.toString
+    doctype + "\n" + super.miniPrint
   }
 }

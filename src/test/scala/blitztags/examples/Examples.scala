@@ -6,8 +6,9 @@ import scala.xml._
 import blitztags.AddElementCommands._
 import blitztags.TemplateMatchers
 import blitztags.html5._
+import blitztags.Implicits
 
-class Examples extends FreeSpec with ShouldMatchers with TemplateMatchers{
+class Examples extends FreeSpec with ShouldMatchers with TemplateMatchers {
   "blitztags examples" - {
     "hello world" in {
       case class Page(title: String) extends Template {
@@ -24,6 +25,30 @@ class Examples extends FreeSpec with ShouldMatchers with TemplateMatchers{
             <title>Hello World</title>
           </head>
         </html>)
+    }
+
+    "attributes" in {
+      new Template {
+        Html('lang -> "de") {
+          Form('method -> "get") {
+            Input('type -> "text")
+          }
+        }
+      } should matchXml(
+        <html lang="de">
+          <form method="get">
+            <input type="text"/>
+          </form>
+        </html>)
+    }
+
+    "css classes" in {
+      new Template {
+        val main = Clazz("main")
+        val container = Clazz("container")
+        Div(main, 'id -> "first", container) {}
+      } should matchXml(
+        <div class="main container" id="first"></div>)
     }
 
     "controll strcutures and variables" in {

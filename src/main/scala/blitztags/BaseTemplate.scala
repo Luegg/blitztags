@@ -2,7 +2,7 @@ package blitztags
 
 import scala.xml.PrettyPrinter
 
-trait Template {
+trait BaseTemplate {
   implicit val builder = new XmlBuilder{}
   
   def toXml = builder.document.docElem

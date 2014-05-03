@@ -4,11 +4,11 @@ import scala.xml._
 import org.scalatest.matchers.Matcher
 import org.scalatest.matchers.MatchResult
 
-trait TemplateMatchers {
+trait TemplateMatchers extends {
   val prettyPrinter = new PrettyPrinter(80, 4)
 
-  val matchXml = (right: Node) => new Matcher[Template] {
-    def apply(left: Template) = {
+  val matchXml = (right: Node) => new Matcher[BaseTemplate] {
+    def apply(left: BaseTemplate) = {
       val leftRes = prettyPrinter.format(left.toXml)
       val rightRes = prettyPrinter.format(right)
       MatchResult(
