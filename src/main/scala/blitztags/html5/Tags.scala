@@ -3,12 +3,6 @@ package blitztags.html5
 import blitztags.AddElementCommands._
 
 trait Tags {
-  // text nodes
-  val T = TextNode
-  
-  // comment nodes
-  val / = CommentNode
-
   // root element
   val Html = NormalElement("html")
 

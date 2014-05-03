@@ -6,7 +6,7 @@ import org.scalamock.scalatest.MockFactory
 import scala.xml._
 import blitztags.AddElementCommands._
 
-class VoidElementSpec extends FlatSpec with ShouldMatchers with MockFactory {
+class VoidElementSpec extends FlatSpec with ShouldMatchers with MockFactory with Attributes {
   val Br = VoidElement("br")
 
   "the AddVoidElement command" should "instruct the builder to add a new void element" in {
@@ -24,7 +24,7 @@ class VoidElementSpec extends FlatSpec with ShouldMatchers with MockFactory {
   }
 }
 
-class RawTextElementSpec extends FlatSpec with ShouldMatchers with MockFactory {
+class RawTextElementSpec extends FlatSpec with ShouldMatchers with MockFactory with Attributes {
   val Script = RawTextElement("script")
 
   "the AddRawTextElement command" should "instruct the builder to add a new raw text element" in {
@@ -44,7 +44,7 @@ class RawTextElementSpec extends FlatSpec with ShouldMatchers with MockFactory {
   }
 }
 
-class NormalElementSpec extends FlatSpec with ShouldMatchers with MockFactory {
+class NormalElementSpec extends FlatSpec with ShouldMatchers with MockFactory with Attributes {
   val P = NormalElement("p")
   val H1 = NormalElement("h1")
   val H2 = NormalElement("h2")

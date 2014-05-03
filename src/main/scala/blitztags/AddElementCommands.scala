@@ -69,10 +69,10 @@ object AddElementCommands {
    * }}}
    */
   case class RawTextElement(tagName: String) {
-    def apply(attrs: Attr*)(expr: => Any)(implicit builder: XmlBuilder): Unit = {
-      val childs = expr match {
+    def apply(attrs: Attr*)(content: Any)(implicit builder: XmlBuilder): Unit = {
+      val childs = content match {
         case _: Unit => Seq()
-        case a: Any => Seq(new Text(a.toString))
+        case a => Seq(new Text(a.toString))
       }
       builder.addChild(new Elem(null, tagName, args2attrs(attrs), TopScope, false, childs: _*))
     }

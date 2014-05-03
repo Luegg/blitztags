@@ -1,12 +1,9 @@
-package blitztags
+package blitztags.html5
 
-import scala.xml.MetaData
-import scala.xml.Null
-import scala.xml.Text
-import scala.xml.TopScope
-import scala.xml.UnprefixedAttribute
+import scala.xml._
+import blitztags.AddElementCommands
 
-package object html5 extends Tags with Implicits {
+trait HtmlClasses {
   case class Clazz(name: String) extends AddElementCommands.Attr {
     def prependTo(attrs: MetaData) = {
       val classAttr = attrs.get("class") match {

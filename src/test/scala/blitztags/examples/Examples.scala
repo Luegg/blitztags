@@ -3,10 +3,8 @@ package blitztags.examples
 import org.scalatest.matchers.ShouldMatchers
 import org.scalatest.FreeSpec
 import scala.xml._
-import blitztags.AddElementCommands._
+import blitztags.html5.Template
 import blitztags.TemplateMatchers
-import blitztags.html5._
-import blitztags.Implicits
 
 class Examples extends FreeSpec with ShouldMatchers with TemplateMatchers {
   "blitztags examples" - {
@@ -31,13 +29,13 @@ class Examples extends FreeSpec with ShouldMatchers with TemplateMatchers {
       new Template {
         Html('lang -> "de") {
           Form('method -> "get") {
-            Input('type -> "text")
+            Input('type -> "text", 'name -> "who")
           }
         }
       } should matchXml(
         <html lang="de">
           <form method="get">
-            <input type="text"/>
+            <input type="text" name="who"/>
           </form>
         </html>)
     }
@@ -46,6 +44,7 @@ class Examples extends FreeSpec with ShouldMatchers with TemplateMatchers {
       new Template {
         val main = Clazz("main")
         val container = Clazz("container")
+
         Div(main, 'id -> "first", container) {}
       } should matchXml(
         <div class="main container" id="first"></div>)
@@ -160,14 +159,17 @@ class Examples extends FreeSpec with ShouldMatchers with TemplateMatchers {
     "unescaped text" in {
       new Template {
         Html {
-          // just use scala.xml.Unparsed to include unsanitized input
-          Unparsed("""<script>alert("XSS!");</script>""")
+          Raw {
+            """<script>alert("XSS!");</script>"""
+          }
         }
       }.toXml.toString should be(
         """<html><script>alert("XSS!");</script></html>""")
     }
 
     "custom tags" in {
+      import blitztags.AddElementCommands._
+
       new Template {
         val Ruler = VoidElement("ruler")
         val Story = RawTextElement("story")
